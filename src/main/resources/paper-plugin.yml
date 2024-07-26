@@ -1,0 +1,4 @@
+name: Gambling
+version: '${project.version}'
+main: net.yeyito.gambling.Gambling
+api-version: '1.20'
