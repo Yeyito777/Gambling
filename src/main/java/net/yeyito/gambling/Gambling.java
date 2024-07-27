@@ -1,5 +1,6 @@
 package net.yeyito.gambling;
 
+import net.yeyito.gambling.games.Blackjack;
 import net.yeyito.gambling.util.Chair;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -57,7 +58,19 @@ public final class Gambling extends JavaPlugin {
             commands.register(
                     Commands.literal("chair")
                             .requires(sender -> sender.getSender().hasPermission("chair.summon"))
-                            .executes(ctx -> summonChair(ctx))
+                            .executes(this::summonChair)
+                            .build(),
+                    "Summons a chair at the player's location",
+                    List.of("sitdown")
+            );
+
+            commands.register(
+                    Commands.literal("blackjack")
+                            .requires(sender -> sender.getSender().hasPermission("chair.summon"))
+                            .executes(ctx -> {
+                                new Blackjack(((Player) ctx.getSource().getSender()).getLocation());
+                                return Command.SINGLE_SUCCESS;
+                            })
                             .build(),
                     "Summons a chair at the player's location",
                     List.of("sitdown")
@@ -78,7 +91,7 @@ public final class Gambling extends JavaPlugin {
         // Adjust the location to be in front of the player
         Location chairLocation = playerLocation.add(playerFacing.getDirection());
 
-        Chair.summonChair(chairLocation, playerFacing);
+        new Chair().summonChair(chairLocation, playerFacing);
         return Command.SINGLE_SUCCESS;
     }
 }

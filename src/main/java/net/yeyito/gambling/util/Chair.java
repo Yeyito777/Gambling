@@ -13,8 +13,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class Chair implements Listener {
+    public Interaction interaction;
+    public Block chairBlock;
+    public Chair() {}
 
-    public static void summonChair(Location location, BlockFace facing) {
+    public void summonChair(Location location, BlockFace facing) {
         // Set the chair block
         Block chairBlock = location.getBlock();
         chairBlock.setType(Material.OAK_STAIRS);
@@ -27,8 +30,11 @@ public class Chair implements Listener {
         // Spawn the interaction entity
         Location interactionLoc = chairBlock.getLocation().add(0.5, 0.5, 0.5);
         Interaction interaction = (Interaction) interactionLoc.getWorld().spawnEntity(interactionLoc, EntityType.INTERACTION);
-        interaction.setInteractionWidth(0.6f);
+        interaction.setInteractionWidth(1f);
         interaction.setInteractionHeight(0.6f);
+
+        this.interaction = interaction;
+        this.chairBlock = chairBlock;
     }
 
     @EventHandler
